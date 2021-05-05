@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">News</string>
+    <string name="Category">Category</string>
+    <string name="Video">Video</string>
+    <string name="Favorite">Favorite</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
+    <string name="terms_privacy"><![CDATA[Terms & Privacy]]></string>
+    <string name="edite">Edite Profile</string>
+
+</resources>

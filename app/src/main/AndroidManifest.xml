@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.myapplication">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/register"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApplication">
+        <activity android:name=".CreatePost"
+            android:label="Create News"/>
+        <activity android:name=".CompleteProfile"/>
+        <activity android:name=".MySpace" />
+        <activity
+            android:name=".NewsSortCateg"
+            android:label="World" />
+        <activity
+            android:name=".MyProfile"
+            android:label="@string/edite" />
+        <activity android:name=".LogIn" />
+        <activity
+            android:name=".Profile"
+            android:label="@string/profile" />
+        <activity
+            android:name=".Search"
+            android:label="@string/search" />
+        <activity
+            android:name=".Favorite"
+            android:label="@string/Favorite" />
+        <activity
+            android:name=".Video"
+            android:label="@string/Video" />
+        <activity
+            android:name=".Category"
+            android:label="@string/Category" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/app_name" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
