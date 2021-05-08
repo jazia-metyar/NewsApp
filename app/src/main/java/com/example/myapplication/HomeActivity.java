@@ -11,17 +11,28 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.time.LocalDateTime;
 
 public class HomeActivity extends AppCompatActivity {
+   private TextView date,body,title,category;
+   private ImageView imageView;
+    private  DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +96,38 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        show();
     }
 
 
+    public void show() {
+        super.onStart();
+        imageView=(ImageView)findViewById(R.id.imageView);
+        title=findViewById(R.id.textView9);
+        category=findViewById(R.id.textView10);
+        date=findViewById(R.id.textView11);
+        body=findViewById(R.id.textView12);
+        ref= FirebaseDatabase.getInstance().getReference().child("Posts").child("km");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    title.setText(snapshot.child("title").getValue().toString());
+                    date.setText(snapshot.child("date").getValue().toString());
+                    category.setText(snapshot.child("cat").getValue().toString());
+                    body.setText(snapshot.child("body").getValue().toString());
+                    String link=snapshot.child("photos").getValue(String.class);
+                    /*Picasso.get().load(link)
+                        .into(imageView);*/
+                    Glide.with(getApplicationContext())
+                        .load(link)
+                        .into(imageView);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
 
-
+    }
 }

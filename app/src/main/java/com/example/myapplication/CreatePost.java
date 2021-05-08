@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +40,7 @@ public class CreatePost extends AppCompatActivity {
     Uri FilePathUri;
     StorageReference storageReference;
  //   DatabaseReference databaseReference;
-    int Image_Request_Code = 7;
+    int Image_Request_Code = 2;
     ProgressDialog progressDialog ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,7 @@ public class CreatePost extends AppCompatActivity {
               Intent intent = new Intent();
               intent.setType("image/*");
               intent.setAction(Intent.ACTION_GET_CONTENT);
-              startActivityForResult(Intent.createChooser(intent, "Select Image"), Image_Request_Code);
+              startActivityForResult(Intent.createChooser(intent, "Select Image"),2);
 
           }
       });
@@ -71,7 +74,7 @@ public class CreatePost extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                UploadImage();
+                UploadToFireBase(FilePathUri);
 
             }
         });
@@ -101,22 +104,11 @@ public class CreatePost extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == Image_Request_Code && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
-            FilePathUri = data.getData();
-
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), FilePathUri);
-                imageView.setImageBitmap(bitmap);
-            }
-            catch (IOException e) {
-
-                e.printStackTrace();
-            }
+        if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
+            FilePathUri=data.getData();
+            imageView.setImageURI(FilePathUri);
         }
     }
 
@@ -139,7 +131,7 @@ public class CreatePost extends AppCompatActivity {
 
             progressDialog.setTitle("Image is Uploading...");
             progressDialog.show();
-            StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
+            StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." +GetFileExtension(FilePathUri));
             storageReference2.putFile(FilePathUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -153,11 +145,11 @@ public class CreatePost extends AppCompatActivity {
                             @SuppressWarnings("VisibleForTests")
                             Post post = new Post(postDate, postTitle,postBody,postCategory,taskSnapshot.getUploadSessionUri().toString());
 
-                            ref.child(postCategory).setValue(post);
+                           ref.child(postCategory).setValue(post);
                           //  Toast.makeText(CreatePost.this, "Post created successfully", Toast.LENGTH_LONG).show();
 
-                         //   String ImageUploadId = ref.push().getKey();
-                          //  ref.child(ImageUploadId).setValue(post);
+                         // String ImageUploadId = ref.push().getKey();
+                         //   ref.child(ImageUploadId).setValue(post);
                         }
                     });
         }
@@ -169,7 +161,34 @@ public class CreatePost extends AppCompatActivity {
     }
 
 
+    private void  UploadToFireBase(Uri uri){
+        StorageReference fileRef=storageReference.child(System.currentTimeMillis()+"."+GetFileExtension(uri));
+        fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String postTitle=title.getEditText().getText().toString();
+                        String postDate=date.getEditText().getText().toString();
+                        String postCategory=category.getEditText().getText().toString();
+                        String postBody=body.getEditText().getText().toString();
+                        progressDialog.dismiss();
+                        Post post = new Post(postDate, postTitle,postBody,postCategory,uri.toString());
 
+                       // String modelId=ref.push().getKey();
+                        ref.child(postCategory).setValue(post);
+                        Toast.makeText(CreatePost.this, "uploaded successfully", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CreatePost.this, "Problem upload", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 
 
