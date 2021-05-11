@@ -46,18 +46,19 @@ public class CreatePost extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
+
         title=findViewById(R.id.title);
         date=findViewById(R.id.date);
         category=findViewById(R.id.category);
         body=findViewById(R.id.body);
         save=findViewById(R.id.save);
         photo=findViewById(R.id.photo);
+
         imageView=(ImageView) findViewById(R.id.imageView);
         storageReference = FirebaseStorage.getInstance().getReference("Posts");
         ref= FirebaseDatabase.getInstance().getReference().child("Posts");
-     //   databaseReference = FirebaseDatabase.getInstance().getReference("Posts");
         progressDialog = new ProgressDialog(CreatePost.this);
-      photo.setOnClickListener(new View.OnClickListener() {
+        photo.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
               Intent intent = new Intent();
@@ -65,41 +66,23 @@ public class CreatePost extends AppCompatActivity {
               intent.setAction(Intent.ACTION_GET_CONTENT);
               startActivityForResult(Intent.createChooser(intent, "Select Image"),2);
 
-          }
-      });
+                }
+            });
 
-
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                UploadToFireBase(FilePathUri);
-
-            }
-        });
-
-      /*
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String PostTitle=title.getEditText().getText().toString();
-                String PostDate=date.getEditText().getText().toString();
-               String PostCategory=category.getEditText().getText().toString();
-                String PostBody=body.getEditText().getText().toString();
-                String postPhoto=imageView.toString();
-               // Glide.with(getApplicationContext()).load(postPhoto).into(imageView);
-                Post post1=new Post(PostDate,PostTitle,PostBody,
-                        PostCategory,postPhoto);
+                if(FilePathUri!=null){
+                    UploadToFireBase(FilePathUri);
 
-                ref.child(PostCategory).child(PostTitle).setValue(post1);
-                Toast.makeText(CreatePost.this, "Post created successfully", Toast.LENGTH_LONG).show();
 
+
+                }else{
+                    Toast.makeText(CreatePost.this, "Please select an image", Toast.LENGTH_LONG).show();
+                }
             }
-        });*/
-
-
+        });
     }
 
 
@@ -112,7 +95,6 @@ public class CreatePost extends AppCompatActivity {
         }
     }
 
-
     public String GetFileExtension(Uri uri) {
 
         ContentResolver contentResolver = getContentResolver();
@@ -121,10 +103,7 @@ public class CreatePost extends AppCompatActivity {
 
     }
 
-
-
-
-
+    // old version
     public void UploadImage() {
 
         if (FilePathUri != null) {
@@ -160,8 +139,10 @@ public class CreatePost extends AppCompatActivity {
         }
     }
 
-
-    private void  UploadToFireBase(Uri uri){
+    // new version
+    private void UploadToFireBase(Uri uri){
+        progressDialog.setTitle("Image is Uploading...");
+        progressDialog.show();
         StorageReference fileRef=storageReference.child(System.currentTimeMillis()+"."+GetFileExtension(uri));
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -173,11 +154,11 @@ public class CreatePost extends AppCompatActivity {
                         String postDate=date.getEditText().getText().toString();
                         String postCategory=category.getEditText().getText().toString();
                         String postBody=body.getEditText().getText().toString();
-                        progressDialog.dismiss();
                         Post post = new Post(postDate, postTitle,postBody,postCategory,uri.toString());
 
                        // String modelId=ref.push().getKey();
                         ref.child(postCategory).setValue(post);
+                        progressDialog.dismiss();
                         Toast.makeText(CreatePost.this, "uploaded successfully", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -189,54 +170,4 @@ public class CreatePost extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-
-
-
-
-
-  /*  @Override
-    protected void onActivityResult(int requestCode, int resultcode, Intent intent)
-    {
-        super.onActivityResult(requestCode, resultcode, intent);
-
-        if (requestCode == 1)
-        {
-            if (intent != null && resultcode == RESULT_OK)
-            {
-
-                Uri selectedImage = intent.getData();
-                Toast.makeText(CreatePost.this, "Image created successfully", Toast.LENGTH_LONG).show();
-
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String filePath = cursor.getString(columnIndex);
-                cursor.close();
-
-                if(bitmap != null && !bitmap.isRecycled())
-                {
-                    bitmap = null;
-                }
-
-                bitmap = BitmapFactory.decodeFile(filePath);
-
-                imageView.setBackgroundResource(0);
-                imageView.setImageBitmap(bitmap);
-                imageView.setVisibility(View.VISIBLE);
-                Toast.makeText(CreatePost.this, "photo created successfully", Toast.LENGTH_LONG).show();
-
-
-
-            }
-            else
-            {
-                Log.d("Status:", "Action Not Completed");
-            }
-        }
-    }*/
 }

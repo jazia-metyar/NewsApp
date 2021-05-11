@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Build;
@@ -28,16 +30,30 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
    private TextView date,body,title,category;
    private ImageView imageView;
     private  DatabaseReference ref;
-
+// recycle view
+private final LinkedList<Post> mWordList = new LinkedList<>();
+    //on aurait pu utiliser une autre structure de données comme  :
+    //private final List<String> wordsList = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private PostListAdapter mAdapter;
+    private List<Post> listData;
+    private RecyclerView rv;
+    private PostListAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+
         // Action Bar0
         getSupportActionBar().hide();
         Toolbar toolbar=findViewById(R.id.topAppBar);
@@ -62,6 +78,7 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
+
 
 
         // BottomNavigationView
@@ -101,7 +118,40 @@ public class HomeActivity extends AppCompatActivity {
 
 
     public void show() {
-        super.onStart();
+
+
+        rv=(RecyclerView)findViewById(R.id.recyclerview);
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        listData=new ArrayList<>();
+
+        final DatabaseReference nm= FirebaseDatabase.getInstance().getReference("Posts");
+        nm.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()){
+                        Post l=npsnapshot.getValue(Post.class);
+                        listData.add(l);
+                    }
+                    adapter=new PostListAdapter(getApplicationContext(),listData);
+                    rv.setAdapter(adapter);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+/*
         imageView=(ImageView)findViewById(R.id.imageView);
         title=findViewById(R.id.textView9);
         category=findViewById(R.id.textView10);
@@ -116,9 +166,9 @@ public class HomeActivity extends AppCompatActivity {
                     category.setText(snapshot.child("cat").getValue().toString());
                     body.setText(snapshot.child("body").getValue().toString());
                     String link=snapshot.child("photos").getValue(String.class);
-                    /*Picasso.get().load(link)
+                     /*Picasso.get().load(link)
                         .into(imageView);*/
-                    Glide.with(getApplicationContext())
+      /*              Glide.with(getApplicationContext())
                         .load(link)
                         .into(imageView);
             }
@@ -128,6 +178,24 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        // Ajouter des éléments au RecyclerView.
+        for (int i = 0; i < mWordList.size(); i++) {
+            mWordList.addLast();
+        }
+
+        // Créer une variable de type reycylerView
+        mRecyclerView = findViewById(R.id.recyclerview);
+
+        // Créer l'Adapter et lui passer la liste dont il va afficher les éléments
+        mAdapter = new PostListAdapter(this, mWordList);
+
+        // Connecter l'Adapter à notre RecyclerView
+        mRecyclerView.setAdapter(mAdapter);
+
+        // Passer au RecyclerView le LayoutManager désiré
+        LinearLayoutManager l = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(l);
+*/
 
     }
 }

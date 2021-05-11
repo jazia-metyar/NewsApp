@@ -6,6 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
+    <RelativeLayout
+        android:id="@+id/relative1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,8 +25,22 @@
                 android:visibility="visible"
                 />
     </com.google.android.material.appbar.AppBarLayout>
+    </RelativeLayout>
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/relative1" >
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-41dp"
+        tools:layout_editor_absoluteY="0dp"
+       >
 
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>
 
 
 
@@ -36,57 +54,8 @@
         app:menu="@menu/menu_navigation"
         android:layout_alignParentBottom="true"
         app:labelVisibilityMode="labeled"/>
-    <RelativeLayout
-        android:id="@+id/relative1"
-        android:layout_margin="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/topAppBars"
-        >
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:visibility="visible"
-            tools:srcCompat="@drawable/ic_photo" />
 
 
-        <RelativeLayout
-            android:layout_toEndOf="@id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                />
 
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                android:layout_below="@id/textView9"
-                />
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                android:layout_below="@id/textView10"
-                />
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                android:layout_below="@id/textView11"
-                />
-        </RelativeLayout>
-
-    </RelativeLayout>
 
 </RelativeLayout>
