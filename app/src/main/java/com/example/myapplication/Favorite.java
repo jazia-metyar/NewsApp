@@ -80,10 +80,5 @@ public class Favorite extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        startActivity(new Intent(getApplicationContext()
-                ,CreatePost.class));
-    }
+
 }

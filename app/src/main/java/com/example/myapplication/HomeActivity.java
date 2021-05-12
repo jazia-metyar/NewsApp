@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,18 +36,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
-   private TextView date,body,title,category;
-   private ImageView imageView;
-    private  DatabaseReference ref;
-// recycle view
-private final LinkedList<Post> mWordList = new LinkedList<>();
-    //on aurait pu utiliser une autre structure de données comme  :
-    //private final List<String> wordsList = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-    private PostListAdapter mAdapter;
     private List<Post> listData;
     private RecyclerView rv;
     private PostListAdapter adapter;
+    private FloatingActionButton floatingActionButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +65,11 @@ private final LinkedList<Post> mWordList = new LinkedList<>();
                     case R.id.profile:
                         startActivity(new Intent(getApplicationContext()
                                 ,Profile.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.addPost:
+                        startActivity(new Intent(getApplicationContext()
+                                ,CreatePost.class));
                         overridePendingTransition(0,0);
                         return true;
                 }
@@ -114,7 +112,9 @@ private final LinkedList<Post> mWordList = new LinkedList<>();
         });
 
         show();
+
     }
+
 
 
     public void show() {

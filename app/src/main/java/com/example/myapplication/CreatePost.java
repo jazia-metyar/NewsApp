@@ -77,6 +77,8 @@ public class CreatePost extends AppCompatActivity {
                     UploadToFireBase(FilePathUri);
 
 
+                startActivity(new Intent(getApplicationContext()
+                  ,HomeActivity.class));
 
                 }else{
                     Toast.makeText(CreatePost.this, "Please select an image", Toast.LENGTH_LONG).show();
@@ -124,7 +126,7 @@ public class CreatePost extends AppCompatActivity {
                             @SuppressWarnings("VisibleForTests")
                             Post post = new Post(postDate, postTitle,postBody,postCategory,taskSnapshot.getUploadSessionUri().toString());
 
-                           ref.child(postCategory).setValue(post);
+                           ref.child(postTitle).setValue(post);
                           //  Toast.makeText(CreatePost.this, "Post created successfully", Toast.LENGTH_LONG).show();
 
                          // String ImageUploadId = ref.push().getKey();

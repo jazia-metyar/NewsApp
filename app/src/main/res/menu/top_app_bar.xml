@@ -8,6 +8,11 @@
         android:icon="@drawable/ic_search"
         android:title="search"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/addPost"
+        android:icon="@drawable/ic_add"
+        android:title="AddPost"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/profile"
