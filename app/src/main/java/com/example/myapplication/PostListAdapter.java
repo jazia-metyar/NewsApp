@@ -88,7 +88,11 @@ public class PostListAdapter extends
         holder.title.setText(mCurrent.getTitle());
         holder.category.setText(mCurrent.getCat());
         holder.date.setText(mCurrent.getDate());
-        holder.body.setText(mCurrent.getBody());
+        if(mCurrent.getBody().length()>20)
+            holder.body.setText(mCurrent.getBody().substring(0,20)+"....");
+        else
+            holder.body.setText(mCurrent.getBody());
+
         String link=mCurrent.getPhotos();
                      Picasso.get().load(link)
                         .into(holder.imageView);

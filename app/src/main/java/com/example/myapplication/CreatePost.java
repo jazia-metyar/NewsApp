@@ -77,9 +77,6 @@ public class CreatePost extends AppCompatActivity {
                     UploadToFireBase(FilePathUri);
 
 
-                startActivity(new Intent(getApplicationContext()
-                  ,HomeActivity.class));
-
                 }else{
                     Toast.makeText(CreatePost.this, "Please select an image", Toast.LENGTH_LONG).show();
                 }
@@ -106,6 +103,8 @@ public class CreatePost extends AppCompatActivity {
     }
 
     // old version
+
+   /*
     public void UploadImage() {
 
         if (FilePathUri != null) {
@@ -139,7 +138,7 @@ public class CreatePost extends AppCompatActivity {
             Toast.makeText(CreatePost.this, "Please Select Image or Add Image Name", Toast.LENGTH_LONG).show();
 
         }
-    }
+    }*/
 
     // new version
     private void UploadToFireBase(Uri uri){
@@ -159,7 +158,7 @@ public class CreatePost extends AppCompatActivity {
                         Post post = new Post(postDate, postTitle,postBody,postCategory,uri.toString());
 
                        // String modelId=ref.push().getKey();
-                        ref.child(postCategory).setValue(post);
+                        ref.child(postTitle).setValue(post);
                         progressDialog.dismiss();
                         Toast.makeText(CreatePost.this, "uploaded successfully", Toast.LENGTH_LONG).show();
                     }

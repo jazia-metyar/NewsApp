@@ -111,11 +111,15 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        show();
+
 
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        show();
+    }
 
     public void show() {
 
