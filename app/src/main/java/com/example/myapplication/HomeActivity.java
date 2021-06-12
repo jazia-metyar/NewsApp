@@ -39,12 +39,10 @@ public class HomeActivity extends AppCompatActivity {
     private List<Post> listData;
     private RecyclerView rv;
     private PostListAdapter adapter;
-    private FloatingActionButton floatingActionButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
 
 
         // Action Bar0

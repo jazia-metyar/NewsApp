@@ -24,8 +24,6 @@ public class PostListAdapter extends
     private final List<Post> mWordList;
     private final LayoutInflater mInflater;
 
-    private TextView date,body,title,category;
-    private ImageView imageView;
 
     class WordViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
@@ -88,14 +86,14 @@ public class PostListAdapter extends
         holder.title.setText(mCurrent.getTitle());
         holder.category.setText(mCurrent.getCat());
         holder.date.setText(mCurrent.getDate());
-        if(mCurrent.getBody().length()>20)
-            holder.body.setText(mCurrent.getBody().substring(0,20)+"....");
+        if(mCurrent.getBody().length()>60)
+            holder.body.setText(mCurrent.getBody().substring(0,60)+"....");
         else
             holder.body.setText(mCurrent.getBody());
 
         String link=mCurrent.getPhotos();
-                     Picasso.get().load(link)
-                        .into(holder.imageView);
+        Picasso.get().load(link)
+                .into(holder.imageView);
     }
 
     //Retourne le nombre d'éléments de notre liste
