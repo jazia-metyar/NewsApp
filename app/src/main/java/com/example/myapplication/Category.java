@@ -15,14 +15,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class Category extends AppCompatActivity {
     LinearLayout layout1,layout2,layout3,layout4,
                  layout5,layout6,layout7,layout8;
+    Toolbar toolbar;
+    BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        // Action Bar
+     // Action Bar
         getSupportActionBar().hide();
 
+// Categories building
 
+    //initialisation
         layout1=findViewById(R.id.world);
         layout2=findViewById(R.id.entertainment);
         layout3=findViewById(R.id.topnews);
@@ -32,7 +36,7 @@ public class Category extends AppCompatActivity {
         layout7=findViewById(R.id.technology);
         layout8=findViewById(R.id.business);
 
-
+    //fixing
         layout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +125,13 @@ public class Category extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar=findViewById(R.id.topAppBar);
+
+
+
+
+
+ // Toolbar building
+        toolbar=findViewById(R.id.topAppBar);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -143,7 +153,11 @@ public class Category extends AppCompatActivity {
                 return false;
             }
         });
-        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation);
+
+
+
+// ActionBar building
+        bottomNavigationView =findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setSelectedItemId(R.id.Category);
 
