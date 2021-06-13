@@ -80,7 +80,7 @@ public class NewsSortCateg extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
                         Post l = npsnapshot.getValue(Post.class);
-                         if (l.getCat().equals(category))
+                         if (l.getCat().equalsIgnoreCase(category))
                             listData.add(l);
                     }
                     adapter = new PostListAdapter(getApplicationContext(), listData);

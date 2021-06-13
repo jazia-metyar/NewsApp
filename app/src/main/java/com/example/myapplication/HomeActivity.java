@@ -139,6 +139,7 @@ public class HomeActivity extends AppCompatActivity {
                     adapter=new PostListAdapter(getApplicationContext(),listData);
                     rv.setAdapter(adapter);
 
+
                 }
             }
 

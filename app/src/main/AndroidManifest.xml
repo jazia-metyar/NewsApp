@@ -3,19 +3,21 @@
     package="com.example.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-       android:hardwareAccelerated="true"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/register"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".CreatePost"
-            android:label="Create News"/>
-        <activity android:name=".CompleteProfile"/>
+        <activity android:name=".PostDetails"></activity>
+        <activity
+            android:name=".CreatePost"
+            android:label="Create News" />
+        <activity android:name=".CompleteProfile" />
         <activity android:name=".MySpace" />
         <activity
             android:name=".NewsSortCateg"

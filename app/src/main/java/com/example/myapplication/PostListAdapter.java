@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,13 @@ public class PostListAdapter extends
     private final LayoutInflater mInflater;
 
 
+
     class WordViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
+        private RelativeLayout relativeLayout;
         private TextView date,body,title,category;
         private ImageView imageView;
-        private DatabaseReference ref;
+
         //public final RelativeLayout wordItemView;
         final PostListAdapter mAdapter;
 
@@ -44,7 +47,10 @@ public class PostListAdapter extends
             body=itemView.findViewById(R.id.textView12);
             imageView=(ImageView)itemView.findViewById(R.id.imageView);
             this.mAdapter = adapter;
+            relativeLayout=itemView.findViewById(R.id.relative1);
+
             itemView.setOnClickListener(this);
+
         }
 
         @Override
@@ -53,13 +59,26 @@ public class PostListAdapter extends
 
             Post element = mWordList.get(mPosition);
             mWordList.set(mPosition, element);
+            Intent intent = new Intent(view.getContext(), PostDetails.class);
+            intent.putExtra("body",element.getBody());
+            intent.putExtra("title",element.getTitle());
+            intent.putExtra("category",element.getCat());
+            intent.putExtra("date",element.getDate());
+            intent.putExtra("image",element.getPhotos());
+
+            view.getContext().startActivity(intent);
+
             mAdapter.notifyDataSetChanged();
+
+
+
         }
     }
 
     public PostListAdapter(Context context, List<Post> wordList) {
         mInflater = LayoutInflater.from(context);
         this.mWordList = wordList;
+
 
     }
 
@@ -94,7 +113,11 @@ public class PostListAdapter extends
         String link=mCurrent.getPhotos();
         Picasso.get().load(link)
                 .into(holder.imageView);
+
+
+
     }
+
 
     //Retourne le nombre d'éléments de notre liste
     @Override
