@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MyProfile extends AppCompatActivity {
     private TextInputLayout name,email,password,phone;
-    private Button update;
+    private Button update, signOUT;
     private DatabaseReference reff;
     private FirebaseAuth bD;
 
@@ -36,6 +36,7 @@ public class MyProfile extends AppCompatActivity {
         phone=findViewById(R.id.phone);
         password=findViewById(R.id.password);
         update=findViewById(R.id.update);
+        signOUT=findViewById(R.id.signOut);
         reff= FirebaseDatabase.getInstance().getReference().child("User");
 
         showAllUserData();
@@ -43,6 +44,17 @@ public class MyProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 update();
+            }
+        });
+        signOUT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(MyProfile.this,"SignOUt successfully !!!",Toast.LENGTH_LONG).show();
+
+                startActivity(new Intent(getApplicationContext()
+                        , HomeActivity.class));
+                finish();
             }
         });
     }
