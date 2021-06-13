@@ -12,8 +12,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MyProfile extends AppCompatActivity {
     private TextInputLayout name,email,password,phone;
@@ -46,18 +49,50 @@ public class MyProfile extends AppCompatActivity {
 
     private void showAllUserData() {
 
-        Intent intent =getIntent();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+
+        final DatabaseReference nm = FirebaseDatabase.getInstance().getReference("User");
+        nm.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        User l = npsnapshot.getValue(User.class);
+                        if (l.getEmail().equals(currentUser.getEmail()))
+                        {   userName=l.getName();
+                        System.err.println("useeeeeeeeeeeeeeeeeeeeeeerrr"+userName);
+                        userEmail=l.getEmail();
+                        userPassword=l.getPassword();
+                        userPhone=l.getPhone();
+                            name.getEditText().setText(userName);
+                            email.getEditText().setText(userEmail);
+                            phone.getEditText().setText(userPhone);
+                            password.getEditText().setText(userPassword);
+
+                        }
+
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        }); }
+    /*   Intent intent =getIntent();
         userName=intent.getStringExtra("name");
         userEmail=intent.getStringExtra("email");
          userPassword=intent.getStringExtra("password");
          userPhone=intent.getStringExtra("phone");
 
+*/
 
 
-        name.getEditText().setText(userName);
-        email.getEditText().setText(userEmail);
-        phone.getEditText().setText(userPhone);
-        password.getEditText().setText(userPassword);
     }
 
     private void update(){
@@ -65,24 +100,11 @@ public class MyProfile extends AppCompatActivity {
         {
             Toast.makeText(MyProfile.this,"Data has been updated",Toast.LENGTH_LONG).show();
         }
+        else {
         if(!(isNameChanged() && isEmailChanged() && isPasswordChanged())){
             Toast.makeText(MyProfile.this,"Data is same and can't be updated",Toast.LENGTH_LONG).show();
-        }
-     /*   if(isEmailChanged())
-        {
-            Toast.makeText(MyProfile.this,"Data has been updated",Toast.LENGTH_LONG).show();
-        }
-        else{
-            Toast.makeText(MyProfile.this,"Data is same and can't be updated",Toast.LENGTH_LONG).show();
-        }
+        }}
 
-        if(isPasswordChanged())
-        {
-            Toast.makeText(MyProfile.this,"Data has been updated",Toast.LENGTH_LONG).show();
-        }
-        else{
-            Toast.makeText(MyProfile.this,"Data is same and can't be updated",Toast.LENGTH_LONG).show();
-        }*/
 
 
     }

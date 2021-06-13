@@ -53,11 +53,11 @@ public class Profile extends AppCompatActivity {
             public void onClick(View v) {
                 String fEmail=email.getEditText().getText().toString().trim();
                 String fPassword=password.getEditText().getText().toString().trim();
-              //  String fPhone=phone.getEditText().getText().toString().trim();
-               /* user.setName(name.getEditText().getText().toString().trim());
+                String fPhone=phone.getEditText().getText().toString().trim();
+                user.setName(name.getEditText().getText().toString().trim());
                 user.setPhone(fPhone);
                 user.setEmail(fEmail);
-                user.setPassword(fPassword);*/
+                user.setPassword(fPassword);
 
 
 
@@ -71,11 +71,11 @@ public class Profile extends AppCompatActivity {
                             /*
                             ////
                             /////register in realtime database
-
+                            */
                             reff.child(fPhone).setValue(user);
                             Toast.makeText(Profile.this,"Data saved successfully",Toast.LENGTH_LONG).show();
-                            */
-                               startActivity(new Intent(getApplicationContext(),CompleteProfile.class));
+
+                               startActivity(new Intent(getApplicationContext(),LogIn.class));
                                 finish();
                         }
                         else
