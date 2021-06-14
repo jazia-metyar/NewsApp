@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -10,7 +11,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.util.LocaleData;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -31,6 +34,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 public class CreatePost extends AppCompatActivity {
     private TextInputLayout title,date,category,body;
@@ -42,6 +51,7 @@ public class CreatePost extends AppCompatActivity {
  //   DatabaseReference databaseReference;
     int Image_Request_Code = 2;
     ProgressDialog progressDialog ;
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +63,9 @@ public class CreatePost extends AppCompatActivity {
         body=findViewById(R.id.body);
         save=findViewById(R.id.save);
         photo=findViewById(R.id.photo);
-
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        String strDate = dateFormat.format(Calendar.getInstance().getTime());
+        date.getEditText().setText(strDate);
         imageView=(ImageView) findViewById(R.id.imageView);
         storageReference = FirebaseStorage.getInstance().getReference("Posts");
         ref= FirebaseDatabase.getInstance().getReference().child("Posts");
