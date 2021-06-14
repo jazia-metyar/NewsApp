@@ -5,15 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="6dp"
-    android:layout_marginTop="5dp">
+    >
 
     <RelativeLayout
         android:id="@+id/relative1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/topAppBars"
-
-
         >
 
         <ImageView
@@ -23,11 +21,10 @@
             android:visibility="visible"
             tools:srcCompat="@drawable/ic_photo" />
 
-
         <RelativeLayout
             android:layout_toEndOf="@id/imageView"
             android:layout_width="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content">
 
             <TextView

@@ -149,6 +149,12 @@ public class Category extends AppCompatActivity {
                                 ,Profile.class));
                         overridePendingTransition(0,0);
                         return true;
+
+                    case R.id.addPost:
+                        startActivity(new Intent(getApplicationContext()
+                                ,VideoPost.class));
+                        overridePendingTransition(0,0);
+                        return true;
                 }
                 return false;
             }

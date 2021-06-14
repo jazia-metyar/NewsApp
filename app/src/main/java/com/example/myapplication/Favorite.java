@@ -36,6 +36,11 @@ public class Favorite extends AppCompatActivity {
                                 ,Profile.class));
                         overridePendingTransition(0,0);
                         return true;
+                    case R.id.addPost:
+                        startActivity(new Intent(getApplicationContext()
+                                ,CreatePost.class));
+                        overridePendingTransition(0,0);
+                        return true;
                 }
                 return false;
             }
